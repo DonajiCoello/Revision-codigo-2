@@ -1,32 +1,41 @@
-var formulario = document.querySelector("#form")
+var formulario = document.querySelector("#form") /* Se le añade el id al html para poder hacer uso de él */
 
 formulario.onsubmit = function(e) {
 
-  e.prevent();
+  e.preventDefault(); /* Es preventDefault pues queremos evitar que actue como un formulario por defecto, en cambio lo utilizaremos con acciones que queremos */
   
-  var n = formulario.elements[0]
-  var e = formulario.elements[1]
-  var na = formulario.elements[2]
-
-  var nombre = n.value
-  var edad = e.value
-
-  var i = na.selectedIndex
-  var nacionalidad = na.options[i].value
+  /* No es muy buena práctica que se use solo una letra para los nombres
+  esntonces ocuparemos los nombres como tal */
+  var nombreForm = formulario.elements[0]
+  var edadForm = formulario.elements[1]
+  var nacionalidadForm = formulario.elements[2]
+/* Dado que cambiamos el nombre de las variables se cambian las referencias */
+  var nombre = nombreForm.value
+  var edad = edadForm.value
+/* Cambiamos nombre de i por uno nuevo*/
+  var indiceNacionalidad = nacionalidadForm.selectedIndex
+  var nacionalidad = nacionalidadForm.options[indiceNacionalidad].value
   console.log(nombre, edad)
   console.log(nacionalidad)
 
+  /* Vamos a cambiar el nombre de las variables  */
   if (nombre.length === 0) {
-    n.classList.add("error")
+    nombreForm.classList.add("error"); /* faltan : */
+  } else {
+    nombreForm.classList.remove("error"); 
   }
+  /* Verificamos la edad */
   if (edad < 18 || edad > 120) {
-    e.classList.add("error")
+    edadForm.classList.add("error"); /* Falta ; */
+  } else {
+    edadForm.classList.remove("error");
   }
+/* Siempre es mejor que las condicionales esten juntas para mejorar legibilidad */
+if (nombre.length > 0 && (edad > 18 && edad < 120) ) {
+  agregarInvitado(nombre, edad, nacionalidad); /* Falta ; */
 
-if (nombre.length > 0 
-  && (edad > 18 
-    && edad < 120) ) {
-  agregarInvitado(nombre, edad, nacionalidad)
+  /* Sgregamos un formulario.reset para que se resetee */
+  formulario.reset();
   }
 }
 
@@ -51,31 +60,33 @@ function agregarInvitado(nombre, edad, nacionalidad) {
   else if (nacionalidad === "per") {
     nacionalidad = "Peruana"
   }
+/* Faltan varios ; */
+var lista = document.getElementById("lista-de-invitados");
 
-var lista = document.getElementById("lista-de-invitados")
+var elementoLista = document.createElement("div");
+/* el metodo es add no added */
+elementoLista.classList.add("elemento-lista");
+lista.appendChild(elementoLista);
 
-var elementoLista = document.createElement("div")
-elementoLista.classList.added("elemento-lista")
-lista.appendChild(elementoLista)
-
-var spanNombre = document.createElement("span")
+/* Vamo a quitar esta parte pues lo tenemos abajo */
+/* var spanNombre = document.createElement("span")
 var inputNombre = document.createElement("input")
 var espacio = document.createElement("br")
 spanNombre.textContent = "Nombre: "
 inputNombre.value = nombre 
 elementoLista.appendChild(spanNombre)
 elementoLista.appendChild(inputNombre)
-elementoLista.appendChild(espacio)
+elementoLista.appendChild(espacio) */
 
 function crearElemento(descripcion, valor) {
-var spanNombre = document.createElement("span")
-var inputNombre = document.createElement("input")
-var espacio = document.createElement("br")
+var spanNombre = document.createElement("span");
+var inputNombre = document.createElement("input");
+var espacio = document.createElement("br");
 spanNombre.textContent = descripcion + ": "
 inputNombre.value = valor 
-elementoLista.appendChild(spanNombre)
-elementoLista.appendChild(inputNombre)
-elementoLista.appendChild(espacio)
+elementoLista.appendChild(spanNombre);
+elementoLista.appendChild(inputNombre);
+elementoLista.appendChild(espacio);
 }
 
 crearElemento("Nombre", nombre)
